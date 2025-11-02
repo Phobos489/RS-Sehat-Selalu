@@ -53,7 +53,7 @@ class GoogleAuthController extends Controller
             return redirect()->intended('/petugas-loket');
 
         } catch (\Exception $e) {
-            return redirect('/')->with('error', 'Gagal login dengan Google!');
+            return redirect('/admin')->with('error', 'Gagal login dengan Google!');
         }
     }
 
@@ -68,6 +68,6 @@ class GoogleAuthController extends Controller
         request()->session()->regenerateToken();
 
         // Kembali ke halaman utama (welcome)
-        return redirect('/')->with('success', 'Berhasil logout.');
+        return redirect('/admin')->with('success', 'Berhasil logout.');
     }
 }

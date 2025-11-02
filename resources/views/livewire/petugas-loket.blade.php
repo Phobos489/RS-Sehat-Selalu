@@ -1,45 +1,10 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <!-- Header Section -->
     <div class="mb-8">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
-                    Dashboard Petugas Loket
-                </h1>
-                <p class="text-gray-600">Kelola antrian pasien dengan mudah dan efisien</p>
-            </div>
-            
-            <!-- Auto Refresh Controls -->
-            <div class="flex items-center space-x-4">
-                <!-- Manual Refresh Button -->
-                <button wire:click="refreshData" 
-                        class="flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 shadow-sm">
-                    <svg class="w-4 h-4 mr-2 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                    </svg>
-                    Refresh
-                </button>
-                
-                <!-- Auto Refresh Toggle -->
-                <div class="flex items-center space-x-2">
-                    <span class="text-sm text-gray-600">Auto Refresh</span>
-                    <button wire:click="toggleAutoRefresh" 
-                            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ease-in-out 
-                                   @if($autoRefresh) bg-blue-600 @else bg-gray-300 @endif">
-                        <span class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ease-in-out 
-                                    @if($autoRefresh) translate-x-6 @else translate-x-1 @endif"></span>
-                    </button>
-                    @if($autoRefresh)
-                        <div class="flex items-center text-green-600">
-                            <svg class="w-4 h-4 mr-1 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="text-xs">Aktif</span>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            Dashboard Petugas Loket
+        </h1>
+        <p class="text-gray-600">Kelola antrian pasien dengan mudah dan efisien</p>
     </div>
 
     <!-- Notifications -->
@@ -379,65 +344,7 @@
         }
     }
 
-    // Auto refresh functionality
-    let refreshInterval;
-
-    function startAutoRefresh() {
-        // Clear existing interval
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
-        }
-        
-        // Set new interval (5 detik)
-        refreshInterval = setInterval(() => {
-            Livewire.dispatch('refresh-antrian');
-        }, 5000);
-    }
-
-    function stopAutoRefresh() {
-        if (refreshInterval) {
-            clearInterval(refreshInterval);
-            refreshInterval = null;
-        }
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        updateCurrentTime();
-        setInterval(updateCurrentTime, 1000);
-        
-        // Start auto refresh by default
-        startAutoRefresh();
-    });
-
-    // Listen to Livewire events
-    document.addEventListener('livewire:initialized', function() {
-        // Start auto refresh when component is ready
-        startAutoRefresh();
-        
-        // Listen for manual refresh events
-        Livewire.on('start-auto-refresh', () => {
-            startAutoRefresh();
-        });
-        
-        Livewire.on('stop-auto-refresh', () => {
-            stopAutoRefresh();
-        });
-        
-        Livewire.on('antrian-refreshed', () => {
-            // Optional: Show brief refresh indicator
-            const refreshBtn = document.querySelector('[wire\\:click="refreshData"]');
-            if (refreshBtn) {
-                refreshBtn.classList.add('animate-pulse');
-                setTimeout(() => {
-                    refreshBtn.classList.remove('animate-pulse');
-                }, 1000);
-            }
-        });
-    });
-
-    // Cleanup on page unload
-    document.addEventListener('livewire:navigating', function() {
-        stopAutoRefresh();
-    });
+    // Update time immediately and then every second
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
 </script>

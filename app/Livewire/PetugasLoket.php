@@ -6,7 +6,6 @@ use Livewire\Component;
 use App\Models\Loket;
 use App\Models\Antrian;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\On;
 
 class PetugasLoket extends Component
 {
@@ -15,26 +14,16 @@ class PetugasLoket extends Component
     public $menunggu = [];
     public $dipanggil = [];
     public $errorMessage = '';
-    public $autoRefresh = true;
-    public $refreshInterval = 5000; // 5 detik
 
     public function mount()
     {
         $this->lokets = Loket::all();
-        
-        // Load initial data jika loket sudah dipilih
-        if ($this->loket_id) {
-            $this->loadAntrian();
-        }
     }
 
     public function updatedLoketId($value)
     {
         if ($value) {
             $this->loadAntrian();
-        } else {
-            $this->menunggu = [];
-            $this->dipanggil = [];
         }
     }
 
@@ -59,34 +48,6 @@ class PetugasLoket extends Component
         
         // Reset error message
         $this->errorMessage = '';
-    }
-
-    // Method untuk manual refresh
-    public function refreshData()
-    {
-        $this->loadAntrian();
-        $this->dispatch('antrian-refreshed'); // Dispatch event untuk JavaScript
-    }
-
-    // Method yang akan dipanggil secara otomatis
-    #[On('refresh-antrian')]
-    public function handleAutoRefresh()
-    {
-        if ($this->autoRefresh && $this->loket_id) {
-            $this->loadAntrian();
-        }
-    }
-
-    // Toggle auto refresh
-    public function toggleAutoRefresh()
-    {
-        $this->autoRefresh = !$this->autoRefresh;
-        
-        if ($this->autoRefresh) {
-            $this->dispatch('start-auto-refresh');
-        } else {
-            $this->dispatch('stop-auto-refresh');
-        }
     }
 
     public function panggil($id)
@@ -144,7 +105,7 @@ class PetugasLoket extends Component
     public function render()
     {
         return view('livewire.petugas-loket')
-            ->layout('components.layouts.app', [
+            ->layout('components.layouts.petugas', [
                 'title' => 'Halaman Petugas Loket'
             ]);
     }

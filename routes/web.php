@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Livewire\PetugasLoket;
+use App\Livewire\DisplayAntrian;
 use App\Http\Controllers\Auth\GoogleAuthController;
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return view('welcome');
 });
 
@@ -22,3 +23,6 @@ Route::get('logout', [GoogleAuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('/petugas-loket', PetugasLoket::class)->name('petugas.loket');
 });
+
+// Route untuk display antrian (tanpa login)
+Route::get('/', DisplayAntrian::class)->name('display.antrian');
