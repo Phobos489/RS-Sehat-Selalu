@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Livewire\PetugasLoket;
 use App\Livewire\DisplayAntrian;
+use App\Livewire\AmbilAntrian;
 use App\Http\Controllers\Auth\GoogleAuthController;
 
 Route::get('/admin', function () {
@@ -26,3 +27,6 @@ Route::middleware(['auth'])->group(function () {
 
 // Route untuk display antrian (tanpa login)
 Route::get('/', DisplayAntrian::class)->name('display.antrian');
+
+// Route untuk ambil antrian (tanpa login)
+Route::get('/antrian', AmbilAntrian::class)->name('ambil.antrian');

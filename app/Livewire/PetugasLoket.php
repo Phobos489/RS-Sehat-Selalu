@@ -106,7 +106,7 @@ class PetugasLoket extends Component
     {
         return view('livewire.petugas-loket')
             ->layout('components.layouts.petugas', [
-                'title' => 'Halaman Petugas Loket'
+                'title' => 'Petugas Loket - RS Sehat Selalu'
             ]);
     }
 }
